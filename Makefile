@@ -23,22 +23,22 @@
 #APP = diffusion
 
 ## OpenACC, load pgi, USE joboac.sh
-CC = pgcc
-CFLAGS = -O3 -acc -Minfo=accel
-LDFLAGS = -acc
-LIBS =
-
-APP = diffusion
-
-## Cuda, load cuda, USE jobcuda.sh
-#CC = nvcc
-##CFLAGS = -O2 -g -arch sm_60
-#CFLAGS = -O3 -g
-##LDFLAGS = -arch sm_60
-#LDFLAGS =
+#CC = pgcc
+#CFLAGS = -O3 -acc -Minfo=accel
+#LDFLAGS = -acc
 #LIBS =
 
 #APP = diffusion
+
+## Cuda, load cuda, USE jobcuda.sh
+CC = nvcc
+##CFLAGS = -O2 -g -arch sm_60
+CFLAGS = -O3 -g
+##LDFLAGS = -arch sm_60
+LDFLAGS =
+LIBS =
+
+APP = diffusion
 
 ## MPI
 #CC = mpicc
@@ -56,7 +56,7 @@ all: $(APP)
 $(APP): $(OBJS)
 	$(CC) $^ $(LIBS) -o $@ $(LDFLAGS)
 
-%.o : %.c
+%.o : %.cu
 	$(CC) $(CFLAGS) -c $< -o $*.o
 
 clean:
